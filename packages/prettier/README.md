@@ -12,14 +12,14 @@ npm install -D markdown-magic markdown-magic-prettier prettier
 
 ## Adding the plugin
 
-See `example.js` for usage.
+See `example.ts` for usage.
 
-<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./example.js) -->
+<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./example.ts) -->
 
-```js
+```ts
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import PRETTIER from './index.js';
+import PRETTIER from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',

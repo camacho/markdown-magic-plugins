@@ -4,9 +4,10 @@
   "description": "Prettify JS blocks",
   "license": "MIT",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
-    ".": "./index.js",
+    ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
   "engines": {
@@ -32,8 +33,11 @@
     "markdown-magic"
   ],
   "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc --project tsconfig.build.json",
+    "prepack": "pnpm build",
     "test": "vitest run",
-    "docs": "node example.js && prettier --write README.md",
+    "docs": "node example.ts && prettier --write README.md",
     "format": "prettier --write ."
   },
   "peerDependencies": {
@@ -41,11 +45,13 @@
     "markdown-magic": "^4"
   },
   "devDependencies": {
+    "@types/node": "^24.13.2",
     "markdown-magic": "catalog:",
     "prettier": "catalog:",
+    "typescript": "^6.0.3",
     "vitest": "catalog:"
   },
   "files": [
-    "index.js"
+    "dist"
   ]
 }
