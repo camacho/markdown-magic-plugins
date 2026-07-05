@@ -19,17 +19,21 @@
     "markdown magic"
   ],
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
-    ".": "./index.js",
+    ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
   "engines": {
     "node": ">=22.18.0"
   },
   "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc --project tsconfig.build.json",
+    "prepack": "pnpm build",
     "test": "vitest run",
-    "docs": "node example.js && prettier --write README.md",
+    "docs": "node example.ts && prettier --write README.md",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -40,11 +44,14 @@
     "markdown-magic": "^4"
   },
   "devDependencies": {
+    "@types/node": "^24.13.2",
+    "@types/semver": "^7.7.1",
     "markdown-magic": "^4.0.0",
     "prettier": "^3.0.0",
+    "typescript": "^6.0.3",
     "vitest": "^4.0.0"
   },
   "files": [
-    "index.js"
+    "dist"
   ]
 }

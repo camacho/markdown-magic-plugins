@@ -18,7 +18,7 @@ export default tseslint.config(
       // Pre-existing dead code (unreachable branch, unused destructures,
       // stray regex escapes) predates this lint pass and needs its own
       // review rather than a drive-by fix here — tracked as a follow-up.
-      'packages/dependency-table/index.js',
+      'packages/dependency-table/index.ts',
     ],
   },
   js.configs.recommended,
