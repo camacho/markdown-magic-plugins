@@ -1,0 +1,48 @@
+{
+  "name": "markdown-magic-subpackage-list",
+  "version": "2.0.0",
+  "description": "Print a list of subpackages for markdown file",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camacho/markdown-magic-subpackage-list.git"
+  },
+  "bugs": {
+    "url": "https://github.com/camacho/markdown-magic-subpackage-list/issues"
+  },
+  "homepage": "https://github.com/camacho/markdown-magic-subpackage-list#readme",
+  "author": "Patrick Camacho <patrick@daftdevelopers.com>",
+  "keywords": [
+    "markdown-magic",
+    "lerna",
+    "sub-package",
+    "list",
+    "plugin"
+  ],
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "docs": "node example.js && prettier --write README.md",
+    "prepublishOnly": "npm test && npm run docs && prettier --check .",
+    "format": "prettier --write ."
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "peerDependencies": {
+    "markdown-magic": "^4"
+  },
+  "devDependencies": {
+    "markdown-magic": "^4.0.0",
+    "prettier": "^3.0.0",
+    "vitest": "^4.0.0"
+  }
+}

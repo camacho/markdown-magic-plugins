@@ -1,0 +1,47 @@
+{
+  "name": "markdown-magic-package-scripts",
+  "version": "2.0.0",
+  "description": "Print list of scripts in package.json with descriptions",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "docs": "node example.js && prettier --write README.md",
+    "empty": "echo \"this is just an example\"",
+    "prepublishOnly": "npm test && npm run docs && prettier --check .",
+    "format": "prettier --write ."
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "license": "MIT",
+  "repository": "git@github.com:camacho/markdown-magic-package-scripts.git",
+  "author": "Patrick Camacho <patrick@daftdevelopers.com>",
+  "keywords": [
+    "markdown",
+    "package",
+    "scripts",
+    "package-scripts",
+    "markdown-magic",
+    "npm"
+  ],
+  "dependencies": {
+    "find-up": "^8.0.0",
+    "sort-scripts": "^1.0.1"
+  },
+  "peerDependencies": {
+    "markdown-magic": "^4"
+  },
+  "devDependencies": {
+    "markdown-magic": "^4.0.0",
+    "prettier": "^3.0.0",
+    "vitest": "^4.0.0"
+  }
+}
