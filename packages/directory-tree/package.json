@@ -3,9 +3,10 @@
   "version": "2.0.0",
   "description": "Print an archy tree for markdown file",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
-    ".": "./index.js",
+    ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
   "engines": {
@@ -33,8 +34,11 @@
     "plugin"
   ],
   "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc --project tsconfig.build.json",
+    "prepack": "pnpm build",
     "test": "vitest run",
-    "docs": "node example.js && prettier --write README.md",
+    "docs": "node example.ts && prettier --write README.md",
     "format": "prettier --write ."
   },
   "dependencies": {
@@ -45,11 +49,14 @@
     "markdown-magic": "^4"
   },
   "devDependencies": {
+    "@types/archy": "^0.0.36",
+    "@types/node": "^24.13.2",
     "markdown-magic": "catalog:",
     "prettier": "catalog:",
+    "typescript": "^6.0.3",
     "vitest": "catalog:"
   },
   "files": [
-    "index.js"
+    "dist"
   ]
 }
