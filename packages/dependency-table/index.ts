@@ -2,6 +2,33 @@ import fs from 'fs';
 import path from 'path';
 import { findUpSync } from 'find-up';
 import semver from 'semver';
+import type { TransformArgs, TransformOptions } from './types.ts';
+
+export type { TransformArgs, TransformOptions } from './types.ts';
+
+interface PackageManifest {
+  name?: string;
+  dependencies?: Record<string, string>;
+  devDependencies?: Record<string, string>;
+  peerDependencies?: Record<string, string>;
+  optionalDependencies?: Record<string, string>;
+  description?: string;
+  homepage?: string;
+  version?: string;
+  repository?: string | { url?: string };
+  license?: string;
+  bugs?: string | { url?: string };
+}
+
+interface DependencyEntry {
+  name: string;
+  semver: string;
+  version: string;
+  description: string;
+  url: string;
+  license: string;
+  dependencyType: string;
+}
 
 const defaults = {
   optional: 'false',
@@ -10,30 +37,36 @@ const defaults = {
   production: 'false',
 };
 
-const npmPkgUrl = 'https://npmjs.org/package/';
-
-function findPkg(dir) {
+function findPkg(dir: string): string {
   const pkgPath = findUpSync('package.json', { cwd: dir });
   if (!pkgPath) throw new Error('No package.json file found');
   return pkgPath;
 }
 
-function sanitizeSemver(version, maxLength = 10, truncateStr = '...') {
+function sanitizeSemver(
+  version: string,
+  maxLength = 10,
+  truncateStr = '...',
+): string {
   if (semver.valid(version)) return version;
   return version.length > maxLength - truncateStr.length
     ? `${version.substr(0, maxLength - truncateStr.length)}${truncateStr}`
     : version;
 }
 
-function convertRepositoryToUrl(repository, name) {
-  let repo = (repository.url || repository).replace('.git', '');
+function convertRepositoryToUrl(
+  repository: string | { url?: string },
+  name?: string,
+): string {
+  let repo = ((repository as { url?: string }).url || repository) as string;
+  repo = repo.replace('.git', '');
 
   if (repo.startsWith('http')) {
     return repo;
   } else if (repo.startsWith('git://')) {
     return repo.replace('git://', 'https://');
   } else if (repo.startsWith('git+ssh')) {
-    const [full, url] = repo.match(/^git\+ssh\:\/\/git\@(.*)$/);
+    const [full, url] = repo.match(/^git\+ssh\:\/\/git\@(.*)$/) as string[];
     return [`https://`, url].join('');
   } else if (repo.startsWith('git@')) {
     return repo.replace('git@', 'https://').replace(':', '/');
@@ -44,25 +77,30 @@ function convertRepositoryToUrl(repository, name) {
   return repo;
 }
 
-function getPkgUrl(pkg) {
+function getPkgUrl(pkg: Partial<PackageManifest>): string {
   const { name, repository, homepage, bugs } = pkg;
 
   if (homepage) return homepage;
   if (repository) return convertRepositoryToUrl(repository, name);
-  if (bugs) return bugs.url || bugs;
+  if (bugs) return ((bugs as { url?: string }).url || bugs) as string;
 
   return `https://npmjs.org/package/${name}`;
 }
 
 const readDependencies =
-  (pkg, pkgDir) =>
-  (manifest, dependencyType = 'production') => {
-    let dependencies;
+  (pkg: PackageManifest, pkgDir: string) =>
+  (
+    manifest: DependencyEntry[],
+    dependencyType = 'production',
+  ): DependencyEntry[] => {
+    let dependencies: Record<string, string> | undefined;
 
     if (dependencyType === 'production') {
       dependencies = pkg.dependencies;
     } else {
-      dependencies = pkg[`${dependencyType}Dependencies`];
+      dependencies = (pkg as Record<string, Record<string, string>>)[
+        `${dependencyType}Dependencies`
+      ];
     }
 
     return manifest.concat(
@@ -75,7 +113,7 @@ const readDependencies =
         if (!localPkgPath) {
           return {
             name,
-            semver: sanitizeSemver(dependencies[name]),
+            semver: sanitizeSemver(dependencies![name]),
             version: '-',
             description: '-',
             url: getPkgUrl({ name }),
@@ -84,15 +122,17 @@ const readDependencies =
           };
         }
 
-        const localPkg = JSON.parse(fs.readFileSync(localPkgPath, 'utf8'));
+        const localPkg: PackageManifest = JSON.parse(
+          fs.readFileSync(localPkgPath, 'utf8'),
+        );
         const { description, homepage, version, repository, license } =
           localPkg;
 
         return {
           name,
-          semver: sanitizeSemver(dependencies[name]),
-          version,
-          description,
+          semver: sanitizeSemver(dependencies![name]),
+          version: version ?? '',
+          description: description ?? '',
           url: getPkgUrl(localPkg),
           license: license ?? 'UNLICENSED',
           dependencyType,
@@ -101,7 +141,7 @@ const readDependencies =
     );
   };
 
-function renderDependencies(dependency) {
+function renderDependencies(dependency: DependencyEntry): string {
   const { name, semver, version, license, description, url, dependencyType } =
     dependency;
   return [
@@ -115,10 +155,18 @@ function renderDependencies(dependency) {
   ].join(' | ');
 }
 
-export default function DEPENDENCYTABLE({ content, options = {}, srcPath }) {
-  const opts = Object.assign({}, defaults, options);
+export default function DEPENDENCYTABLE({
+  content,
+  options = {},
+  srcPath,
+}: TransformArgs): string {
+  const opts: TransformOptions & typeof defaults = Object.assign(
+    {},
+    defaults,
+    options,
+  );
 
-  let pkgPath;
+  let pkgPath: string;
 
   if (opts.pkg) {
     pkgPath = path.resolve(path.dirname(srcPath), opts.pkg);
@@ -126,7 +174,7 @@ export default function DEPENDENCYTABLE({ content, options = {}, srcPath }) {
     pkgPath = findPkg(srcPath);
   }
 
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
+  const pkg: PackageManifest = JSON.parse(fs.readFileSync(pkgPath, 'utf8'));
 
   const headers = [
     '| **Dependency** | **Description** | **Version** | **License** | **Type** |',
