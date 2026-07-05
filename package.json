@@ -9,7 +9,10 @@
   },
   "packageManager": "pnpm@10.32.1",
   "scripts": {
+    "build": "pnpm -r build",
+    "lint": "eslint .",
     "test": "pnpm -r test",
+    "typecheck": "tsc --noEmit",
     "docs": "pnpm -r run docs && node example.js && prettier --write README.md",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -18,9 +21,20 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^24.13.2",
+    "@vitest/eslint-plugin": "^1.6.20",
+    "eslint": "^10.5.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-import-x": "^4.16.2",
+    "globals": "^17.6.0",
     "markdown-magic": "catalog:",
     "markdown-magic-subpackage-list": "workspace:*",
     "prettier": "catalog:",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.61.1",
+    "vitest": "catalog:",
     "lefthook": "^2.1.9"
   },
   "pnpm": {
