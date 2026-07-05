@@ -1,5 +1,17 @@
-export default function factory(schema) {
-  return function SCHEMA({ content }) {
+import type { PulpoSchema, TransformArgs } from './types.ts';
+
+export type {
+  PulpoSchema,
+  PulpoSchemaProperty,
+  TransformArgs,
+} from './types.ts';
+
+export type SchemaTransform = (
+  schema: PulpoSchema,
+) => (args: TransformArgs) => string;
+
+const factory: SchemaTransform = (schema) => {
+  return function SCHEMA({ content }: TransformArgs): string {
     const definition = schema.document();
     const keys = Object.keys(definition);
 
@@ -23,4 +35,6 @@ export default function factory(schema) {
 
     return output.join('\n');
   };
-}
+};
+
+export default factory;

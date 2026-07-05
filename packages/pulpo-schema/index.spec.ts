@@ -1,6 +1,6 @@
 import Pulpo from 'pulpo';
 import { describe, expect, it } from 'vitest';
-import factory from './index.js';
+import factory from './index.ts';
 
 describe('markdown-magic-pulpo-schema', () => {
   it('renders documentation for a pulpo schema', () => {
@@ -21,7 +21,7 @@ describe('markdown-magic-pulpo-schema', () => {
       }),
     );
 
-    expect(SCHEMA({ content: 'original' })).toBe(
+    expect(SCHEMA({ content: 'original', options: {}, srcPath: '' })).toBe(
       [
         '* **host** (string) - Host for the server',
         '  * *default* - localhost',
@@ -36,6 +36,8 @@ describe('markdown-magic-pulpo-schema', () => {
   it('returns original content when the schema has no properties', () => {
     const SCHEMA = factory(new Pulpo({}));
 
-    expect(SCHEMA({ content: 'untouched' })).toBe('untouched');
+    expect(SCHEMA({ content: 'untouched', options: {}, srcPath: '' })).toBe(
+      'untouched',
+    );
   });
 });

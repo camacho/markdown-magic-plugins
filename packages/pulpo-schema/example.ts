@@ -1,7 +1,7 @@
 import path from 'path';
 import Pulpo from 'pulpo';
 import { markdownMagic } from 'markdown-magic';
-import SCHEMA from './index.js';
+import SCHEMA from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',

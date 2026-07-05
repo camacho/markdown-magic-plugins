@@ -67,6 +67,14 @@ const CONSUMER_SNIPPETS = {
     const result: Promise<string> = DEFAULT_TRANSFORM(args);
     void result;
   `,
+  'markdown-magic-pulpo-schema': (name) => `
+    import factory, { PulpoSchema, TransformArgs } from '${name}';
+    const schema: PulpoSchema = { document: () => ({}) };
+    const transform = factory(schema);
+    const args: TransformArgs = { content: '', options: {}, srcPath: '' };
+    const result: string = transform(args);
+    void result;
+  `,
 };
 
 let failed = false;
