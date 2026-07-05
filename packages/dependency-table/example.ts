@@ -1,11 +1,11 @@
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import DIRTREE from './index.js';
+import DEPENDENCYTABLE from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',
   transforms: {
-    DIRTREE,
+    DEPENDENCYTABLE,
   },
 };
 

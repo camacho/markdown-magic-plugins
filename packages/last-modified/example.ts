@@ -1,11 +1,11 @@
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import DEPENDENCYTABLE from './index.js';
+import LASTMODIFIED from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',
   transforms: {
-    DEPENDENCYTABLE,
+    LASTMODIFIED,
   },
 };
 

@@ -1,11 +1,11 @@
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import SCRIPTS from './index.js';
+import SUBPACKAGELIST from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',
   transforms: {
-    SCRIPTS,
+    SUBPACKAGELIST,
   },
 };
 

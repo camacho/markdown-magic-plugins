@@ -3,17 +3,21 @@
   "version": "2.0.0",
   "description": "Print the last modified date using git for a given file",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
-    ".": "./index.js",
+    ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
   "engines": {
     "node": ">=22.18.0"
   },
   "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc --project tsconfig.build.json",
+    "prepack": "pnpm build",
     "test": "vitest run",
-    "docs": "node example.js && prettier --write README.md",
+    "docs": "node example.ts && prettier --write README.md",
     "format": "prettier --write ."
   },
   "license": "MIT",
@@ -32,8 +36,10 @@
     "markdown-magic": "^4"
   },
   "devDependencies": {
+    "@types/node": "^24.13.2",
     "markdown-magic": "catalog:",
     "prettier": "catalog:",
+    "typescript": "^6.0.3",
     "vitest": "catalog:"
   },
   "homepage": "https://github.com/camacho/markdown-magic-plugins#readme",
@@ -41,6 +47,6 @@
     "url": "https://github.com/camacho/markdown-magic-plugins/issues"
   },
   "files": [
-    "index.js"
+    "dist"
   ]
 }
