@@ -37,14 +37,13 @@ await markdownMagic(markdownPath, config);
 <!-- AUTO-GENERATED-CONTENT:START (DIRTREE:dir=./&depth=1) -->
 
 ```
-markdown-magic-directory-tree/
+directory-tree/
 ├── __fixtures__/
 ├── __snapshots__/
-├── .github/
 ├── example.js
 ├── index.js
 ├── index.spec.js
-├── package-lock.json
+├── LICENSE
 ├── package.json
 └── README.md
 ```
