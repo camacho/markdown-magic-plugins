@@ -10,14 +10,14 @@ npm i markdown-magic markdown-magic-directory-tree --save-dev
 
 ## Adding the plugin
 
-See `example.js` for usage.
+See `example.ts` for usage.
 
-<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./example.js) -->
+<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./example.ts) -->
 
-```js
+```ts
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import DIRTREE from './index.js';
+import DIRTREE from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',
@@ -40,12 +40,15 @@ await markdownMagic(markdownPath, config);
 directory-tree/
 ├── __fixtures__/
 ├── __snapshots__/
-├── example.js
-├── index.js
-├── index.spec.js
+├── dist/
+├── example.ts
+├── index.spec.ts
+├── index.ts
 ├── LICENSE
 ├── package.json
-└── README.md
+├── README.md
+├── tsconfig.build.json
+└── types.ts
 ```
 
 <!-- AUTO-GENERATED-CONTENT:END -->
