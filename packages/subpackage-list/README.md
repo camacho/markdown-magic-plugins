@@ -10,14 +10,14 @@ npm i markdown-magic markdown-magic-subpackage-list --save-dev
 
 ## Adding the plugin
 
-See `example.js` for usage.
+See `example.ts` for usage.
 
-<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./example.js) -->
+<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./example.ts) -->
 
-```js
+```ts
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import SUBPACKAGELIST from './index.js';
+import SUBPACKAGELIST from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',

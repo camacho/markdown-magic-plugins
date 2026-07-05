@@ -3,8 +3,11 @@
 exports[`markdown-magic-package-scripts > renders a table of scripts from the nearest package.json 1`] = `
 "| Script | Description |
 |--------|-------------|
-| \`docs\` | \`node example.js && prettier --write README.md\` |
+| \`prebuild\` | \`rm -rf dist\` |
+| \`build\` | \`tsc --project tsconfig.build.json\` |
+| \`docs\` | \`node example.ts && prettier --write README.md\` |
 | \`empty\` | \`echo "this is just an example"\` |
 | \`format\` | \`prettier --write .\` |
+| \`prepack\` | \`pnpm build\` |
 | \`test\` | \`vitest run\` |"
 `;

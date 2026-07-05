@@ -1,8 +1,15 @@
-import path from 'path';
 import { execFileSync } from 'child_process';
+import path from 'path';
+import type { TransformArgs } from './types.ts';
 
-export default function LASTMODIFIED({ content, options = {}, srcPath }) {
-  let filePath;
+export type { TransformArgs, TransformOptions } from './types.ts';
+
+export default function LASTMODIFIED({
+  content,
+  options = {},
+  srcPath,
+}: TransformArgs): string {
+  let filePath: string;
 
   if (options.file) {
     filePath = path.resolve(path.dirname(srcPath), options.file);
