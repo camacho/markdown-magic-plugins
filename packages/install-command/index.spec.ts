@@ -1,6 +1,6 @@
 import path from 'path';
 import { describe, expect, it } from 'vitest';
-import INSTALLCMD from './index.js';
+import INSTALLCMD from './index.ts';
 
 const srcPath = path.join(import.meta.dirname, 'README.md');
 

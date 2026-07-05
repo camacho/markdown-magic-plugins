@@ -14,14 +14,14 @@ npm add -D markdown-magic-install-command markdown-magic@^4
 
 ## Adding the plugin
 
-See `example.js` for usage.
+See `example.ts` for usage.
 
-<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./example.js) -->
+<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./example.ts) -->
 
-```js
+```ts
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import INSTALLCMD from './index.js';
+import INSTALLCMD from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',
