@@ -2,8 +2,11 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import { findUpSync } from 'find-up';
 import sortScripts from 'sort-scripts';
+import type { TransformArgs } from './types.ts';
 
-function findPkg(dir) {
+export type { TransformArgs, TransformOptions } from './types.ts';
+
+function findPkg(dir: string): string {
   const pkgPath = findUpSync('package.json', { cwd: dir });
 
   if (!pkgPath) {
@@ -13,8 +16,12 @@ function findPkg(dir) {
   return pkgPath;
 }
 
-export default function SCRIPTS({ content, options = {}, srcPath }) {
-  let pkgPath;
+export default function SCRIPTS({
+  content,
+  options = {},
+  srcPath,
+}: TransformArgs): string {
+  let pkgPath: string;
 
   if (options && options.pkg) {
     pkgPath = path.resolve(path.dirname(srcPath), options.pkg);
@@ -32,7 +39,9 @@ export default function SCRIPTS({ content, options = {}, srcPath }) {
     .map((s) => s.trim());
   const headerIndex = rows.findIndex((row) => row.startsWith('|-'));
 
-  const details = (headerIndex !== -1 ? rows.slice(headerIndex + 1) : rows)
+  const details: Record<string, string | undefined> = (
+    headerIndex !== -1 ? rows.slice(headerIndex + 1) : rows
+  )
     .map((row) =>
       row
         .split('|')
@@ -40,10 +49,13 @@ export default function SCRIPTS({ content, options = {}, srcPath }) {
         .filter((s) => !!s),
     )
     .filter(([script]) => !!script)
-    .reduce((obj, [script, description]) => {
-      obj[script.replace(/`/g, '')] = description;
-      return obj;
-    }, {});
+    .reduce(
+      (obj: Record<string, string | undefined>, [script, description]) => {
+        obj[script.replace(/`/g, '')] = description;
+        return obj;
+      },
+      {},
+    );
 
   return ['| Script | Description |', '|--------|-------------|']
     .concat(

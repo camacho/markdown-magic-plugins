@@ -10,14 +10,14 @@ yarn add -D markdown-magic markdown-magic-package-scripts
 
 ## Adding the plugin
 
-See `example.js` for usage.
+See `example.ts` for usage.
 
-<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./example.js) -->
+<!-- AUTO-GENERATED-CONTENT:START (CODE:src=./example.ts) -->
 
-```js
+```ts
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import SCRIPTS from './index.js';
+import SCRIPTS from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',
@@ -36,11 +36,14 @@ await markdownMagic(markdownPath, config);
 
 <!-- AUTO-GENERATED-CONTENT:START (SCRIPTS) -->
 
-| Script   | Description                      |
-| -------- | -------------------------------- |
-| `docs`   | generate docs                    |
-| `empty`  | `echo "this is just an example"` |
-| `format` | format code                      |
-| `test`   | `vitest run`                     |
+| Script     | Description                         |
+| ---------- | ----------------------------------- |
+| `prebuild` | `rm -rf dist`                       |
+| `build`    | `tsc --project tsconfig.build.json` |
+| `docs`     | generate docs                       |
+| `empty`    | `echo "this is just an example"`    |
+| `format`   | format code                         |
+| `prepack`  | `pnpm build`                        |
+| `test`     | `vitest run`                        |
 
 <!-- AUTO-GENERATED-CONTENT:END -->
