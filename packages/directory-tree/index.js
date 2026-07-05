@@ -37,7 +37,7 @@ const processNode = (node, ignore, options, depth = 0) => {
   return response;
 };
 
-export default function DIRTREE({ content, options = {}, srcPath }) {
+export default function DIRTREE({ content: _content, options = {}, srcPath }) {
   const opts = { ...defaults, ...options };
   const dir = path.resolve(path.dirname(srcPath), opts.dir);
   const ignore = opts.ignore || [

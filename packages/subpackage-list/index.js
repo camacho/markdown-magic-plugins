@@ -7,7 +7,11 @@ const defaults = {
   bullet: '*',
 };
 
-export default function SUBPACKAGELIST({ content, options = {}, srcPath }) {
+export default function SUBPACKAGELIST({
+  content: _content,
+  options = {},
+  srcPath,
+}) {
   const opts = Object.assign({}, defaults, options);
 
   const packagesDir = path.resolve(path.dirname(srcPath), opts.dir);

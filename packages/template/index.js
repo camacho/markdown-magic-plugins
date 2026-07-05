@@ -3,7 +3,7 @@ import path from 'path';
 import template from 'lodash.template';
 
 export default function factory(data) {
-  return function TEMPLATE({ content, options = {}, srcPath }) {
+  return function TEMPLATE({ content: _content, options = {}, srcPath }) {
     if (!options.src) {
       throw new Error('markdown-magic-template: options.src is required');
     }
