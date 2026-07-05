@@ -66,6 +66,7 @@ export default function DIRTREE({
     '.gitignore',
     'node_modules',
     '.DS_Store',
+    'dist',
   ];
   // directory-tree@3 only returns `name`/`path` (+`children`) unless the
   // caller opts in to extra attributes; `type` is required for our
