@@ -1,5 +1,0 @@
-node_modules
-*.log
-.DS_Store
-npm-debug.log.*
-__fixtures__/untracked.md

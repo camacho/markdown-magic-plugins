@@ -14,14 +14,14 @@
   "scripts": {
     "test": "vitest run",
     "docs": "node example.js && prettier --write README.md",
-    "prepublishOnly": "npm test && npm run docs && prettier --check .",
     "format": "prettier --write ."
   },
-  "prettier": {
-    "singleQuote": true
-  },
   "license": "MIT",
-  "repository": "https://github.com/camacho/markdown-magic-last-modified",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camacho/markdown-magic-plugins.git",
+    "directory": "packages/last-modified"
+  },
   "author": "Patrick Camacho <patrick@daftdevelopers.com>",
   "keywords": [
     "markdown-magic",
@@ -32,8 +32,15 @@
     "markdown-magic": "^4"
   },
   "devDependencies": {
-    "markdown-magic": "^4.0.0",
-    "prettier": "^3.0.0",
-    "vitest": "^4.0.0"
-  }
+    "markdown-magic": "catalog:",
+    "prettier": "catalog:",
+    "vitest": "catalog:"
+  },
+  "homepage": "https://github.com/camacho/markdown-magic-plugins#readme",
+  "bugs": {
+    "url": "https://github.com/camacho/markdown-magic-plugins/issues"
+  },
+  "files": [
+    "index.js"
+  ]
 }

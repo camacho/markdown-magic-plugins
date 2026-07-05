@@ -5,12 +5,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/camacho/markdown-magic-dependency-table.git"
+    "url": "git+https://github.com/camacho/markdown-magic-plugins.git",
+    "directory": "packages/dependency-table"
   },
   "bugs": {
-    "url": "https://github.com/camacho/markdown-magic-dependency-table/issues"
+    "url": "https://github.com/camacho/markdown-magic-plugins/issues"
   },
-  "homepage": "https://github.com/camacho/markdown-magic-dependency-table#readme",
+  "homepage": "https://github.com/camacho/markdown-magic-plugins#readme",
   "author": "Patrick Camacho <patrick@daftdevelopers.com>",
   "keywords": [
     "markdown",
@@ -29,11 +30,7 @@
   "scripts": {
     "test": "vitest run",
     "docs": "node example.js && prettier --write README.md",
-    "prepublishOnly": "npm test && npm run docs && prettier --check .",
     "format": "prettier --write ."
-  },
-  "prettier": {
-    "singleQuote": true
   },
   "dependencies": {
     "find-up": "^8.0.0",
@@ -46,5 +43,8 @@
     "markdown-magic": "^4.0.0",
     "prettier": "^3.0.0",
     "vitest": "^4.0.0"
-  }
+  },
+  "files": [
+    "index.js"
+  ]
 }
