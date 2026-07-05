@@ -1,0 +1,9 @@
+pre-commit:
+  parallel: true
+  commands:
+    format:
+      glob: '*.{js,json,md,yml,yaml}'
+      run: pnpm prettier --check {staged_files}
+    test:
+      glob: 'packages/*/**/*'
+      run: pnpm turbo run test --filter='[HEAD^1]'

@@ -1,0 +1,22 @@
+{
+  "name": "markdown-magic-plugins",
+  "private": true,
+  "description": "markdown-magic transform plugins monorepo",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "packageManager": "pnpm@10.32.1",
+  "scripts": {
+    "test": "turbo run test",
+    "docs": "turbo run docs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.31.0",
+    "prettier": "^3.0.0",
+    "turbo": "^2.0.0"
+  }
+}
