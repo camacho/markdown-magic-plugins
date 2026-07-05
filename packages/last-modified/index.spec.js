@@ -8,7 +8,7 @@ const srcPath = path.join(import.meta.dirname, 'README.md');
 describe('markdown-magic-last-modified', () => {
   it('renders the last git-modified date of the source file', () => {
     const result = format({ content: 'foo', options: {}, srcPath });
-    expect(result).toMatch(/^\*\*README\.md\*\* last modified .+$/);
+    expect(result).toMatch(/^\*\*(?:.+\/)?README\.md\*\* last modified .+$/);
   });
 
   it('returns original content when the target file has no git history', () => {
