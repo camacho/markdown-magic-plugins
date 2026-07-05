@@ -1,0 +1,51 @@
+{
+  "name": "markdown-magic-prettier",
+  "version": "3.0.0",
+  "description": "Prettify JS blocks",
+  "license": "MIT",
+  "type": "module",
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camacho/markdown-magic-prettier.git"
+  },
+  "bugs": {
+    "url": "https://github.com/camacho/markdown-magic-prettier/issues"
+  },
+  "homepage": "https://github.com/camacho/markdown-magic-prettier#readme",
+  "author": "Patrick Camacho <patrick@daftdevelopers.com>",
+  "keywords": [
+    "markdown",
+    "prettier",
+    "prettify",
+    "format",
+    "javascript",
+    "typescript",
+    "markdown-magic"
+  ],
+  "scripts": {
+    "test": "vitest run",
+    "docs": "node example.js && prettier --write README.md",
+    "prepublishOnly": "npm test && npm run docs && prettier --check .",
+    "format": "prettier --write ."
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "peerDependencies": {
+    "prettier": "^3",
+    "markdown-magic": "^4"
+  },
+  "devDependencies": {
+    "markdown-magic": "^4.0.0",
+    "prettier": "^3.0.0",
+    "vitest": "^4.0.0"
+  }
+}

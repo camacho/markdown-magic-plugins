@@ -1,0 +1,56 @@
+{
+  "name": "markdown-magic-pulpo-schema",
+  "version": "2.0.0",
+  "description": "Document configurations built with Pulpo",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/camacho/markdown-magic-pulpo-schema.git"
+  },
+  "bugs": {
+    "url": "https://github.com/camacho/markdown-magic-pulpo-schema/issues"
+  },
+  "homepage": "https://github.com/camacho/markdown-magic-pulpo-schema#readme",
+  "author": "Patrick Camacho <patrick@daftdevelopers.com>",
+  "keywords": [
+    "markdown-magic",
+    "pulpo",
+    "configuration",
+    "config",
+    "plugin"
+  ],
+  "main": "index.js",
+  "exports": {
+    ".": "./index.js",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "docs": "node example.js && prettier --write README.md",
+    "prepublishOnly": "npm test && npm run docs && prettier --check .",
+    "format": "prettier --write ."
+  },
+  "prettier": {
+    "singleQuote": true
+  },
+  "peerDependencies": {
+    "pulpo": "^1.4.2",
+    "markdown-magic": "^4"
+  },
+  "overrides": {
+    "pulpo": {
+      "dotty": "^0.1.2",
+      "minimist": "^1.2.8"
+    }
+  },
+  "devDependencies": {
+    "markdown-magic": "^4.0.0",
+    "pulpo": "^1.4.2",
+    "prettier": "^3.0.0",
+    "vitest": "^4.0.0"
+  }
+}

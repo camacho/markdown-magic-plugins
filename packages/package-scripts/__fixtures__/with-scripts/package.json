@@ -1,0 +1,8 @@
+{
+  "name": "with-scripts-fixture",
+  "private": true,
+  "scripts": {
+    "build": "tsc --project tsconfig.json",
+    "test": "vitest run"
+  }
+}

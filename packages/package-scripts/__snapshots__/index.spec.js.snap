@@ -1,0 +1,11 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`markdown-magic-package-scripts > renders a table of scripts from the nearest package.json 1`] = `
+"| Script | Description |
+|--------|-------------|
+| \`docs\` | \`node example.js && prettier --write README.md\` |
+| \`empty\` | \`echo "this is just an example"\` |
+| \`format\` | \`prettier --write .\` |
+| \`prepublishOnly\` | \`npm test && npm run docs && prettier --check .\` |
+| \`test\` | \`vitest run\` |"
+`;
