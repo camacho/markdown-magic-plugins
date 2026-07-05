@@ -39,6 +39,18 @@ if (tarballs.length !== expectedCount) {
   process.exit(1);
 }
 
+// Consumer-typecheck snippets: each must IMPORT the package's public
+// surface AND EXERCISE it (call the transform / factory) so a broken
+// shipped signature fails compilation, not just a missing module.
+const CONSUMER_SNIPPETS = {
+  default: (name) => `
+    import DEFAULT_TRANSFORM, { TransformArgs } from '${name}';
+    const args: TransformArgs = { content: '', options: {}, srcPath: '' };
+    const result: string = DEFAULT_TRANSFORM(args);
+    void result;
+  `,
+};
+
 let failed = false;
 
 for (const tgz of tarballs) {
@@ -114,52 +126,65 @@ for (const tgz of tarballs) {
     // 3. install + import smoke
     const installDir = mkdtempSync(path.join(tmpdir(), 'mmp-install-'));
     tempDirs.push(installDir);
-    execFileSync('npm', ['init', '-y'], { cwd: installDir, stdio: 'ignore' });
-    execFileSync('npm', ['install', tgzPath], {
-      cwd: installDir,
-      stdio: 'inherit',
-    });
+    try {
+      execFileSync('npm', ['init', '-y'], { cwd: installDir, stdio: 'ignore' });
+      execFileSync('npm', ['install', tgzPath], {
+        cwd: installDir,
+        stdio: 'inherit',
+      });
 
-    const smokeScript = `
-      import mod from '${pkgJson.name}';
-      if (typeof mod !== 'function') {
-        console.error('default export is not a function, got: ' + typeof mod);
-        process.exit(1);
-      }
-      console.log('OK import smoke: default export is a function');
-    `;
-    const smokePath = path.join(installDir, 'smoke.mjs');
-    writeFileSync(smokePath, smokeScript);
-    execFileSync('node', [smokePath], { cwd: installDir, stdio: 'inherit' });
+      const smokeScript = `
+        import mod from '${pkgJson.name}';
+        if (typeof mod !== 'function') {
+          console.error('default export is not a function, got: ' + typeof mod);
+          process.exit(1);
+        }
+        console.log('OK import smoke: default export is a function');
+      `;
+      const smokePath = path.join(installDir, 'smoke.mjs');
+      writeFileSync(smokePath, smokeScript);
+      execFileSync('node', [smokePath], { cwd: installDir, stdio: 'inherit' });
+    } catch (err) {
+      console.error(`FAIL import smoke: ${tgz}: ${err.message}`);
+      failed = true;
+      continue;
+    }
 
     // 4. consumer typecheck — the only gate that catches type-reference
     // leaks and missing/broken .d.ts; only meaningful for dist-packaged
     // (converted) packages, since still-JS packages ship no types yet.
+    // The snippet MUST call the transform with TransformArgs — resolving
+    // the import alone passes even when the shipped signature is wrong.
+    // Packages whose public shape differs from the sync default-transform
+    // contract register a custom snippet here (wave-A: prettier is async,
+    // template/pulpo-schema export factories).
     if (isDistPackaged) {
-      const consumerScript = `
-        import DEFAULT_TRANSFORM, { TransformArgs } from '${pkgJson.name}';
-        const args: TransformArgs = { content: '', options: {}, srcPath: '' };
-        if (typeof DEFAULT_TRANSFORM !== 'function') {
-          throw new Error('default export is not a function');
-        }
-        void args;
-      `;
+      const consumerSnippet =
+        CONSUMER_SNIPPETS[pkgJson.name] ?? CONSUMER_SNIPPETS.default;
+      const consumerScript = consumerSnippet(pkgJson.name);
       const consumerPath = path.join(installDir, 'consumer.ts');
       writeFileSync(consumerPath, consumerScript);
-      execFileSync(
-        TSC,
-        [
-          '--noEmit',
-          '--module',
-          'nodenext',
-          '--moduleResolution',
-          'nodenext',
-          'consumer.ts',
-        ],
-        { cwd: installDir, stdio: 'inherit' },
-      );
+      try {
+        execFileSync(
+          TSC,
+          [
+            '--noEmit',
+            '--strict',
+            '--module',
+            'nodenext',
+            '--moduleResolution',
+            'nodenext',
+            'consumer.ts',
+          ],
+          { cwd: installDir, stdio: 'inherit' },
+        );
+      } catch (err) {
+        console.error(`FAIL consumer typecheck: ${tgz}: ${err.message}`);
+        failed = true;
+        continue;
+      }
       console.log(
-        'OK consumer typecheck: default export + TransformArgs resolve cleanly',
+        'OK consumer typecheck: transform accepts TransformArgs and returns its declared type',
       );
     } else {
       console.log(
