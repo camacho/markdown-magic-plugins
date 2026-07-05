@@ -18,10 +18,21 @@ execFileSync('pnpm', ['pack', '-r', '--pack-destination', PACK_DIR], {
   cwd: ROOT,
 });
 
+const expectedCount = readdirSync(path.join(ROOT, 'packages')).filter((dir) => {
+  try {
+    const pkg = JSON.parse(
+      readFileSync(path.join(ROOT, 'packages', dir, 'package.json'), 'utf8'),
+    );
+    return !pkg.private;
+  } catch {
+    return false;
+  }
+}).length;
+
 const tarballs = readdirSync(PACK_DIR).filter((f) => f.endsWith('.tgz'));
-if (tarballs.length !== 11) {
+if (tarballs.length !== expectedCount) {
   console.error(
-    `Expected 11 tarballs, found ${tarballs.length}: ${tarballs.join(', ')}`,
+    `Expected ${expectedCount} tarballs (publishable workspace packages), found ${tarballs.length}: ${tarballs.join(', ')}`,
   );
   process.exit(1);
 }
@@ -107,4 +118,4 @@ if (failed) {
   console.error('\nTarball gate FAILED');
   process.exit(1);
 }
-console.log('\nTarball gate passed for all 11 packages');
+console.log(`\nTarball gate passed for all ${expectedCount} packages`);

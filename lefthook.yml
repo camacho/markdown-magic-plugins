@@ -3,7 +3,8 @@ pre-commit:
   commands:
     format:
       glob: '*.{js,json,md,yml,yaml}'
-      run: pnpm prettier --check {staged_files}
+      run: pnpm prettier --write {staged_files}
+      stage_fixed: true
     test:
       glob: 'packages/*/**/*'
-      run: pnpm turbo run test --filter='[HEAD]'
+      run: pnpm -r --filter='...[HEAD]' test

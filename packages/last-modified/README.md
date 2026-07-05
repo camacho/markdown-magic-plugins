@@ -36,7 +36,7 @@ await markdownMagic(markdownPath, config);
 
 <!-- AUTO-GENERATED-CONTENT:START (LASTMODIFIED) -->
 
-**README.md** last modified Sat Mar 26 15:49:09 2022 +0100
+**packages/last-modified/README.md** last modified Sun Jul 5 09:09:00 2026 +0200
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 ## Options
