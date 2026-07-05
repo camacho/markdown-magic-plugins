@@ -1,18 +1,30 @@
 import fs from 'fs';
 import path from 'path';
+import type {
+  PackageManifest,
+  TransformArgs,
+  TransformOptions,
+} from './types.ts';
 
-const defaults = {
-  dir: './packages',
-  verbose: false,
-  bullet: '*',
-};
+export type {
+  PackageManifest,
+  TransformArgs,
+  TransformOptions,
+} from './types.ts';
+
+const defaults: Required<Pick<TransformOptions, 'dir' | 'verbose' | 'bullet'>> =
+  {
+    dir: './packages',
+    verbose: false,
+    bullet: '*',
+  };
 
 export default function SUBPACKAGELIST({
   content: _content,
   options = {},
   srcPath,
-}) {
-  const opts = Object.assign({}, defaults, options);
+}: TransformArgs): string {
+  const opts = Object.assign({}, defaults, options) as typeof defaults;
 
   const packagesDir = path.resolve(path.dirname(srcPath), opts.dir);
 
@@ -21,7 +33,7 @@ export default function SUBPACKAGELIST({
     .map((filename) => path.join(packagesDir, filename))
     .filter((filePath) => fs.statSync(filePath).isDirectory())
     .filter((dirPath) => fs.existsSync(path.join(dirPath, 'package.json')))
-    .map((dirPath) => [
+    .map((dirPath): [string, PackageManifest] => [
       path.relative(path.dirname(srcPath), dirPath),
       JSON.parse(fs.readFileSync(path.join(dirPath, 'package.json'), 'utf8')),
     ])

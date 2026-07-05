@@ -3,17 +3,21 @@
   "version": "3.0.0",
   "description": "Print install command for markdown file",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "exports": {
-    ".": "./index.js",
+    ".": "./dist/index.js",
     "./package.json": "./package.json"
   },
   "engines": {
     "node": ">=22.18.0"
   },
   "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc --project tsconfig.build.json",
+    "prepack": "pnpm build",
     "test": "vitest run",
-    "docs": "node example.js && prettier --write README.md",
+    "docs": "node example.ts && prettier --write README.md",
     "format": "prettier --write ."
   },
   "keywords": [
@@ -25,8 +29,10 @@
   "author": "Patrick Camacho <patrick@daftdevelopers.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/node": "^24.13.2",
     "markdown-magic": "catalog:",
     "prettier": "catalog:",
+    "typescript": "^6.0.3",
     "vitest": "catalog:"
   },
   "peerDependencies": {
@@ -45,6 +51,6 @@
   },
   "homepage": "https://github.com/camacho/markdown-magic-plugins#readme",
   "files": [
-    "index.js"
+    "dist"
   ]
 }
