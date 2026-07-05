@@ -59,7 +59,11 @@ function linkify(name, img, options) {
   return `[${img}](${url})`;
 }
 
-export default function VERSIONBADGE({ content, options = {}, srcPath }) {
+export default function VERSIONBADGE({
+  content: _content,
+  options = {},
+  srcPath,
+}) {
   const { name, version } = getPackage(options, srcPath);
   const prefix = getPrefix(options);
   const img = renderBadge(prefix, name, version, options);

@@ -97,7 +97,7 @@ function buildCmdFlags(client, flags) {
 }
 
 export default function INSTALLCMD({
-  content,
+  content: _content,
   options: _options = {},
   srcPath,
 }) {
