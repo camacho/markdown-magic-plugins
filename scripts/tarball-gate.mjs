@@ -61,6 +61,12 @@ const CONSUMER_SNIPPETS = {
     const result: string = transform(args);
     void result;
   `,
+  'markdown-magic-prettier': (name) => `
+    import DEFAULT_TRANSFORM, { TransformArgs } from '${name}';
+    const args: TransformArgs = { content: '', options: {}, srcPath: '' };
+    const result: Promise<string> = DEFAULT_TRANSFORM(args);
+    void result;
+  `,
 };
 
 let failed = false;
