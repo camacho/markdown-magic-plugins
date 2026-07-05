@@ -6,4 +6,4 @@ pre-commit:
       run: pnpm prettier --check {staged_files}
     test:
       glob: 'packages/*/**/*'
-      run: pnpm turbo run test --filter='[HEAD^1]'
+      run: pnpm turbo run test --filter='[HEAD]'

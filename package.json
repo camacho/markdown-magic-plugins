@@ -12,14 +12,16 @@
     "test": "turbo run test",
     "docs": "turbo run docs && node example.js && prettier --write README.md",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "prepare": "lefthook install"
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
     "markdown-magic": "catalog:",
     "markdown-magic-subpackage-list": "workspace:*",
-    "prettier": "^3.0.0",
-    "turbo": "^2.0.0"
+    "prettier": "catalog:",
+    "turbo": "^2.0.0",
+    "lefthook": "^2.1.9"
   },
   "pnpm": {
     "overrides": {
