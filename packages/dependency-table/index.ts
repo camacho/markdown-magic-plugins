@@ -54,10 +54,7 @@ function sanitizeSemver(
     : version;
 }
 
-function convertRepositoryToUrl(
-  repository: string | { url?: string },
-  name?: string,
-): string {
+function convertRepositoryToUrl(repository: string | { url?: string }): string {
   let repo = ((repository as { url?: string }).url || repository) as string;
   repo = repo.replace('.git', '');
 
@@ -66,22 +63,20 @@ function convertRepositoryToUrl(
   } else if (repo.startsWith('git://')) {
     return repo.replace('git://', 'https://');
   } else if (repo.startsWith('git+ssh')) {
-    const [full, url] = repo.match(/^git\+ssh\:\/\/git\@(.*)$/) as string[];
+    const [, url] = repo.match(/^git\+ssh:\/\/git@(.*)$/) as string[];
     return [`https://`, url].join('');
   } else if (repo.startsWith('git@')) {
     return repo.replace('git@', 'https://').replace(':', '/');
   } else {
     return ['https://github.com/', repo].join('');
   }
-
-  return repo;
 }
 
 function getPkgUrl(pkg: Partial<PackageManifest>): string {
   const { name, repository, homepage, bugs } = pkg;
 
   if (homepage) return homepage;
-  if (repository) return convertRepositoryToUrl(repository, name);
+  if (repository) return convertRepositoryToUrl(repository);
   if (bugs) return ((bugs as { url?: string }).url || bugs) as string;
 
   return `https://npmjs.org/package/${name}`;
@@ -125,8 +120,7 @@ const readDependencies =
         const localPkg: PackageManifest = JSON.parse(
           fs.readFileSync(localPkgPath, 'utf8'),
         );
-        const { description, homepage, version, repository, license } =
-          localPkg;
+        const { description, version, license } = localPkg;
 
         return {
           name,
@@ -156,7 +150,7 @@ function renderDependencies(dependency: DependencyEntry): string {
 }
 
 export default function DEPENDENCYTABLE({
-  content,
+  content: _content,
   options = {},
   srcPath,
 }: TransformArgs): string {

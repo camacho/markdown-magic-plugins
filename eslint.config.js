@@ -11,15 +11,7 @@ import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescrip
 // Prettier (run separately) — eslint-config-prettier disables conflicting rules.
 export default tseslint.config(
   {
-    ignores: [
-      '**/dist/**',
-      '**/node_modules/**',
-      '**/__fixtures__/**',
-      // Pre-existing dead code (unreachable branch, unused destructures,
-      // stray regex escapes) predates this lint pass and needs its own
-      // review rather than a drive-by fix here — tracked as a follow-up.
-      'packages/dependency-table/index.ts',
-    ],
+    ignores: ['**/dist/**', '**/node_modules/**', '**/__fixtures__/**'],
   },
   js.configs.recommended,
   ...tseslint.configs.recommended,
