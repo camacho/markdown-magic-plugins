@@ -1,5 +1,6 @@
 import { execFileSync } from 'child_process';
 import {
+  existsSync,
   mkdtempSync,
   readdirSync,
   readFileSync,
@@ -10,6 +11,7 @@ import { tmpdir } from 'os';
 import path from 'path';
 
 const ROOT = process.cwd();
+const TSC = path.join(ROOT, 'node_modules', '.bin', 'tsc');
 const PACK_DIR = mkdtempSync(path.join(tmpdir(), 'mmp-pack-'));
 
 console.log(`Packing all workspace packages into ${PACK_DIR}`);
@@ -87,6 +89,28 @@ for (const tgz of tarballs) {
       `OK contents: shipped files match files field (${actualFiles.join(', ')})`,
     );
 
+    const isDistPackaged = filesField.includes('dist');
+
+    // 2b. dist-internals assertion — packages shipping compiled dist/ must
+    // ship both the runtime entry and its type declarations.
+    if (isDistPackaged) {
+      const distIndexJs = path.join(pkgDir, 'dist', 'index.js');
+      const distIndexDts = path.join(pkgDir, 'dist', 'index.d.ts');
+      const missingDist = [distIndexJs, distIndexDts].filter(
+        (f) => !existsSync(f),
+      );
+      if (missingDist.length > 0) {
+        console.error(
+          `FAIL dist-internals: ${tgz} missing ${missingDist.map((f) => path.relative(pkgDir, f)).join(', ')}`,
+        );
+        failed = true;
+        continue;
+      }
+      console.log(
+        'OK dist-internals: dist/index.js and dist/index.d.ts present',
+      );
+    }
+
     // 3. install + import smoke
     const installDir = mkdtempSync(path.join(tmpdir(), 'mmp-install-'));
     tempDirs.push(installDir);
@@ -107,6 +131,41 @@ for (const tgz of tarballs) {
     const smokePath = path.join(installDir, 'smoke.mjs');
     writeFileSync(smokePath, smokeScript);
     execFileSync('node', [smokePath], { cwd: installDir, stdio: 'inherit' });
+
+    // 4. consumer typecheck — the only gate that catches type-reference
+    // leaks and missing/broken .d.ts; only meaningful for dist-packaged
+    // (converted) packages, since still-JS packages ship no types yet.
+    if (isDistPackaged) {
+      const consumerScript = `
+        import DEFAULT_TRANSFORM, { TransformArgs } from '${pkgJson.name}';
+        const args: TransformArgs = { content: '', options: {}, srcPath: '' };
+        if (typeof DEFAULT_TRANSFORM !== 'function') {
+          throw new Error('default export is not a function');
+        }
+        void args;
+      `;
+      const consumerPath = path.join(installDir, 'consumer.ts');
+      writeFileSync(consumerPath, consumerScript);
+      execFileSync(
+        TSC,
+        [
+          '--noEmit',
+          '--module',
+          'nodenext',
+          '--moduleResolution',
+          'nodenext',
+          'consumer.ts',
+        ],
+        { cwd: installDir, stdio: 'inherit' },
+      );
+      console.log(
+        'OK consumer typecheck: default export + TransformArgs resolve cleanly',
+      );
+    } else {
+      console.log(
+        `SKIP consumer typecheck: ${tgz} not yet converted to TypeScript (no dist/)`,
+      );
+    }
   } finally {
     for (const dir of tempDirs) rmSync(dir, { recursive: true, force: true });
   }
