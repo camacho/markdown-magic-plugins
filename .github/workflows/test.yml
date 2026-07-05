@@ -22,6 +22,10 @@ jobs:
         uses: pnpm/action-setup@v4
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Build
+        # dist must exist before lint/docs: converted packages' exports point
+        # at dist/, and the root example.js imports them by package name
+        run: pnpm -r build
       - name: Lint
         run: pnpm lint
       - name: Typecheck
@@ -36,7 +40,5 @@ jobs:
         run: git checkout -- packages/last-modified/README.md
       - name: Docs diff gate
         run: git diff --exit-code
-      - name: Build
-        run: pnpm -r build
       - name: Tarball gate
         run: node scripts/tarball-gate.mjs
