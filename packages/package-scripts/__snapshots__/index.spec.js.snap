@@ -6,6 +6,5 @@ exports[`markdown-magic-package-scripts > renders a table of scripts from the ne
 | \`docs\` | \`node example.js && prettier --write README.md\` |
 | \`empty\` | \`echo "this is just an example"\` |
 | \`format\` | \`prettier --write .\` |
-| \`prepublishOnly\` | \`npm test && npm run docs && prettier --check .\` |
 | \`test\` | \`vitest run\` |"
 `;

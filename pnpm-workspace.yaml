@@ -7,3 +7,5 @@ catalog:
   markdown-magic: ^4.0.0
   vitest: ^4.0.0
   prettier: ^3.0.0
+  # packages/dependency-table is exempt from catalog: — its README renders devDeps
+  # straight from package.json, and catalog: would render as a mangled version string.

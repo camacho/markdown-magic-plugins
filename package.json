@@ -18,5 +18,11 @@
     "@changesets/cli": "^2.31.0",
     "prettier": "^3.0.0",
     "turbo": "^2.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "dotty": "^0.1.2",
+      "minimist": "^1.2.8"
+    }
   }
 }

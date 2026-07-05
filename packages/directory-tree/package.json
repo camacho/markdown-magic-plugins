@@ -14,12 +14,13 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/camacho/markdown-magic-directory-tree.git"
+    "url": "git+https://github.com/camacho/markdown-magic-plugins.git",
+    "directory": "packages/directory-tree"
   },
   "bugs": {
-    "url": "https://github.com/camacho/markdown-magic-directory-tree/issues"
+    "url": "https://github.com/camacho/markdown-magic-plugins/issues"
   },
-  "homepage": "https://github.com/camacho/markdown-magic-directory-tree#readme",
+  "homepage": "https://github.com/camacho/markdown-magic-plugins#readme",
   "author": "Patrick Camacho <patrick@daftdevelopers.com>",
   "keywords": [
     "markdown-magic",
@@ -34,11 +35,7 @@
   "scripts": {
     "test": "vitest run",
     "docs": "node example.js && prettier --write README.md",
-    "prepublishOnly": "npm test && npm run docs && prettier --check .",
     "format": "prettier --write ."
-  },
-  "prettier": {
-    "singleQuote": true
   },
   "dependencies": {
     "archy": "^1.0.0",
@@ -48,8 +45,11 @@
     "markdown-magic": "^4"
   },
   "devDependencies": {
-    "markdown-magic": "^4.0.0",
-    "prettier": "^3.0.0",
-    "vitest": "^4.0.0"
-  }
+    "markdown-magic": "catalog:",
+    "prettier": "catalog:",
+    "vitest": "catalog:"
+  },
+  "files": [
+    "index.js"
+  ]
 }
