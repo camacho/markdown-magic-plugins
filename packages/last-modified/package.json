@@ -1,6 +1,6 @@
 {
   "name": "markdown-magic-last-modified",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Print the last modified date using git for a given file",
   "type": "module",
   "main": "dist/index.js",

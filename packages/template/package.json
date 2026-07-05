@@ -1,6 +1,6 @@
 {
   "name": "markdown-magic-template",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Lodash template support via Markdown Magic",
   "license": "MIT",
   "type": "module",
