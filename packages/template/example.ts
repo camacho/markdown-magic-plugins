@@ -1,6 +1,6 @@
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import TEMPLATE from './index.js';
+import TEMPLATE from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',

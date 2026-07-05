@@ -49,6 +49,18 @@ const CONSUMER_SNIPPETS = {
     const result: string = DEFAULT_TRANSFORM(args);
     void result;
   `,
+  // template exports a FACTORY, not a transform directly: call it with the
+  // factory data first, then exercise the returned transform with
+  // TransformArgs. This gate is compile-only (tsc --noEmit) — options.src is
+  // never read at this point, so any string value typechecks here even
+  // though the transform reads that path from disk at runtime.
+  'markdown-magic-template': (name) => `
+    import factory, { TransformArgs } from '${name}';
+    const transform = factory({ name: 'x' });
+    const args: TransformArgs = { content: '', options: { src: './x.md' }, srcPath: '' };
+    const result: string = transform(args);
+    void result;
+  `,
 };
 
 let failed = false;

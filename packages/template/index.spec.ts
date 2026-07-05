@@ -1,6 +1,6 @@
 import path from 'path';
 import { describe, expect, it } from 'vitest';
-import factory from './index.js';
+import factory from './index.ts';
 
 const srcPath = path.join(import.meta.dirname, 'README.md');
 
