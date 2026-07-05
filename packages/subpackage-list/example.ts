@@ -1,6 +1,6 @@
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import SUBPACKAGELIST from './index.js';
+import SUBPACKAGELIST from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',
