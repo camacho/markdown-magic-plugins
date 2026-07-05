@@ -22,6 +22,10 @@ jobs:
         uses: pnpm/action-setup@v4
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm lint
+      - name: Typecheck
+        run: pnpm typecheck
       - name: Test
         run: pnpm -r test
       - name: Format check
@@ -32,5 +36,7 @@ jobs:
         run: git checkout -- packages/last-modified/README.md
       - name: Docs diff gate
         run: git diff --exit-code
+      - name: Build
+        run: pnpm -r build
       - name: Tarball gate
         run: node scripts/tarball-gate.mjs
