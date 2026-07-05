@@ -3,7 +3,23 @@
   "version": "2.0.0",
   "description": "Print a list of subpackages for markdown file",
   "type": "module",
-  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": "./dist/index.js",
+    "./package.json": "./package.json"
+  },
+  "engines": {
+    "node": ">=22.18.0"
+  },
+  "scripts": {
+    "prebuild": "rm -rf dist",
+    "build": "tsc --project tsconfig.build.json",
+    "prepack": "pnpm build",
+    "test": "vitest run",
+    "docs": "node example.ts && prettier --write README.md",
+    "format": "prettier --write ."
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/camacho/markdown-magic-plugins.git",
@@ -21,28 +37,18 @@
     "list",
     "plugin"
   ],
-  "main": "index.js",
-  "exports": {
-    ".": "./index.js",
-    "./package.json": "./package.json"
-  },
-  "engines": {
-    "node": ">=22.18.0"
-  },
-  "scripts": {
-    "test": "vitest run",
-    "docs": "node example.js && prettier --write README.md",
-    "format": "prettier --write ."
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^24.13.2",
+    "markdown-magic": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "^6.0.3",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "markdown-magic": "^4"
   },
-  "devDependencies": {
-    "markdown-magic": "catalog:",
-    "prettier": "catalog:",
-    "vitest": "catalog:"
-  },
   "files": [
-    "index.js"
+    "dist"
   ]
 }
