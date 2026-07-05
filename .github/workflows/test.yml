@@ -1,0 +1,33 @@
+name: Test
+on: [push, pull_request]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ['22', '24']
+    name: Node v${{ matrix.node }} test
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Test
+        run: pnpm -r test
+      - name: Format check
+        run: pnpm prettier --check .
+      - name: Docs (exit-code only)
+        run: pnpm run docs
+      - name: Reset non-idempotent docs
+        run: git checkout -- packages/last-modified/README.md
+      - name: Docs diff gate
+        run: git diff --exit-code
+      - name: Tarball gate
+        run: node scripts/tarball-gate.mjs
