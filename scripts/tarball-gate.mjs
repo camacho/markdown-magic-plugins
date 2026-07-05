@@ -1,5 +1,11 @@
 import { execFileSync } from 'child_process';
-import { mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from 'fs';
+import {
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'fs';
 import { tmpdir } from 'os';
 import path from 'path';
 
@@ -14,7 +20,9 @@ execFileSync('pnpm', ['pack', '-r', '--pack-destination', PACK_DIR], {
 
 const tarballs = readdirSync(PACK_DIR).filter((f) => f.endsWith('.tgz'));
 if (tarballs.length !== 11) {
-  console.error(`Expected 11 tarballs, found ${tarballs.length}: ${tarballs.join(', ')}`);
+  console.error(
+    `Expected 11 tarballs, found ${tarballs.length}: ${tarballs.join(', ')}`,
+  );
   process.exit(1);
 }
 
@@ -31,7 +39,9 @@ for (const tgz of tarballs) {
   // 1. protocol-leak gate
   const pkgJsonRaw = readFileSync(path.join(pkgDir, 'package.json'), 'utf8');
   if (/catalog:|workspace:/.test(pkgJsonRaw)) {
-    console.error(`FAIL protocol-leak: ${tgz} package.json still contains catalog:/workspace: protocol`);
+    console.error(
+      `FAIL protocol-leak: ${tgz} package.json still contains catalog:/workspace: protocol`,
+    );
     failed = true;
     continue;
   }
@@ -45,16 +55,23 @@ for (const tgz of tarballs) {
   const actualFiles = readdirSync(pkgDir);
   const unexpected = actualFiles.filter((f) => !expected.has(f));
   if (unexpected.length > 0) {
-    console.error(`FAIL contents: ${tgz} shipped unexpected files: ${unexpected.join(', ')}`);
+    console.error(
+      `FAIL contents: ${tgz} shipped unexpected files: ${unexpected.join(', ')}`,
+    );
     failed = true;
     continue;
   }
-  console.log(`OK contents: shipped files match files field (${actualFiles.join(', ')})`);
+  console.log(
+    `OK contents: shipped files match files field (${actualFiles.join(', ')})`,
+  );
 
   // 3. install + import smoke
   const installDir = mkdtempSync(path.join(tmpdir(), 'mmp-install-'));
   execFileSync('npm', ['init', '-y'], { cwd: installDir, stdio: 'ignore' });
-  execFileSync('npm', ['install', tgzPath], { cwd: installDir, stdio: 'inherit' });
+  execFileSync('npm', ['install', tgzPath], {
+    cwd: installDir,
+    stdio: 'inherit',
+  });
 
   const smokeScript = `
     import mod from '${pkgJson.name}';

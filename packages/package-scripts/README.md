@@ -36,12 +36,11 @@ await markdownMagic(markdownPath, config);
 
 <!-- AUTO-GENERATED-CONTENT:START (SCRIPTS) -->
 
-| Script           | Description                      |
-| ---------------- | -------------------------------- |
-| `docs`           | generate docs                    |
-| `empty`          | `echo "this is just an example"` |
-| `format`         | format code                      |
-| `prepublishOnly` | `npm run docs`                   |
-| `test`           | `vitest run`                     |
+| Script   | Description                      |
+| -------- | -------------------------------- |
+| `docs`   | generate docs                    |
+| `empty`  | `echo "this is just an example"` |
+| `format` | format code                      |
+| `test`   | `vitest run`                     |
 
 <!-- AUTO-GENERATED-CONTENT:END -->

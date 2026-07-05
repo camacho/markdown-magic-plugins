@@ -1,0 +1,13 @@
+import path from 'path';
+import { markdownMagic } from 'markdown-magic';
+import SUBPACKAGELIST from 'markdown-magic-subpackage-list';
+
+const config = {
+  matchWord: 'AUTO-GENERATED-CONTENT',
+  transforms: {
+    SUBPACKAGELIST,
+  },
+};
+
+const markdownPath = path.join(import.meta.dirname, 'README.md');
+await markdownMagic(markdownPath, config);
