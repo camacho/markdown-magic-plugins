@@ -5,7 +5,7 @@ Use [`prettier`](https://github.com/prettier/prettier) to format JS codeblocks i
 ## Install
 
 ```
-yarn add -D markdown-magic markdown-magic-prettier prettier
+npm install -D markdown-magic markdown-magic-prettier prettier
 ```
 
 **Note:** [`prettier`](https://github.com/prettier/prettier) is a [peer dependency](https://docs.npmjs.com/files/package.json#peerdependencies) and must be installed separately from this module

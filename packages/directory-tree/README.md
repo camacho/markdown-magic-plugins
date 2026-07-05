@@ -40,6 +40,7 @@ await markdownMagic(markdownPath, config);
 directory-tree/
 ├── __fixtures__/
 ├── __snapshots__/
+├── .turbo/
 ├── example.js
 ├── index.js
 ├── index.spec.js
