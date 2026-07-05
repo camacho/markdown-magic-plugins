@@ -19,6 +19,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+      - name: Upgrade npm for OIDC trusted publishing
+        # pnpm publish delegates the registry upload to the npm CLI;
+        # OIDC support requires npm >= 11.5, newer than Node 22's bundled npm
+        run: npm install -g npm@latest && npm --version
       - name: Set up pnpm
         uses: pnpm/action-setup@v4
       - name: Install dependencies
