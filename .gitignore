@@ -1,0 +1,9 @@
+node_modules
+!**/__fixtures__/**/node_modules/
+!**/__fixtures__/**/node_modules/**
+
+*.log
+.DS_Store
+.turbo
+coverage
+*.tgz
