@@ -1,6 +1,9 @@
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 import { findUpSync } from 'find-up';
+import type { Client, TransformArgs, TransformOptions } from './types.ts';
+
+export type { Client, TransformArgs, TransformOptions } from './types.ts';
 
 const defaults = {
   flags: '["--save"]',
@@ -8,7 +11,7 @@ const defaults = {
   exact: false,
 };
 
-const installMappings = {
+const installMappings: Record<string, Record<Client, string>> = {
   '--global': { npm: '--global', yarn: '', pnpm: '--global', bun: '--global' },
   '--save': { npm: '--save', yarn: '', pnpm: '', bun: '' },
   '--save-exact': {
@@ -31,15 +34,15 @@ const installMappings = {
   },
 };
 
-function quoteSpacesInDep(dep) {
+function quoteSpacesInDep(dep: string): string {
   return dep.includes(' ') ? `"${dep}"` : dep;
 }
 
-function filterFalseyAndJoin(array, join = ' ') {
+function filterFalseyAndJoin(array: unknown[], join = ' '): string {
   return array.filter((v) => !!v).join(join);
 }
 
-function findPkg(dir) {
+function findPkg(dir: string): string {
   const pkgPath = findUpSync('package.json', { cwd: dir });
 
   if (!pkgPath) {
@@ -49,7 +52,7 @@ function findPkg(dir) {
   return pkgPath;
 }
 
-function pickClient(dir) {
+function pickClient(dir: string): Client {
   if (
     existsSync(path.join(dir, 'bun.lock')) ||
     existsSync(path.join(dir, 'bun.lockb'))
@@ -68,7 +71,15 @@ function pickClient(dir) {
   return 'npm';
 }
 
-function buildDeps(pkg, exactFlag, peersFlag) {
+function buildDeps(
+  pkg: {
+    name: string;
+    version: string;
+    peerDependencies?: Record<string, string>;
+  },
+  exactFlag?: boolean,
+  peersFlag?: boolean,
+): string {
   const mainDep = filterFalseyAndJoin(
     [pkg.name, exactFlag ? pkg.version : ''],
     '@',
@@ -79,18 +90,21 @@ function buildDeps(pkg, exactFlag, peersFlag) {
   const pkgPeers = pkg.peerDependencies;
   if (!pkgPeers) return mainDep;
 
-  const peers = Object.keys(pkg.peerDependencies).map(buildDep(pkgPeers));
+  const peers = Object.keys(pkgPeers).map(buildDep(pkgPeers));
 
   return filterFalseyAndJoin([mainDep, ...peers]);
 }
 
-const buildDep = (obj) => (key) => quoteSpacesInDep([key, obj[key]].join('@'));
+const buildDep =
+  (obj: Record<string, string>) =>
+  (key: string): string =>
+    quoteSpacesInDep([key, obj[key]].join('@'));
 
-function buildInstallCmd(client, isGlobal) {
+function buildInstallCmd(client: Client, isGlobal: boolean): string {
   return `${client}${isGlobal && client === 'yarn' ? ' global' : ''} add`;
 }
 
-function buildCmdFlags(client, flags) {
+function buildCmdFlags(client: Client, flags: string[]): string {
   return filterFalseyAndJoin(
     flags.map((flag) => installMappings[flag]?.[client] ?? flag),
   );
@@ -100,11 +114,11 @@ export default function INSTALLCMD({
   content: _content,
   options: _options = {},
   srcPath,
-}) {
-  const options = Object.assign({}, defaults, _options);
-  options.flags = JSON.parse(options.flags);
+}: TransformArgs): string {
+  const options: TransformOptions = Object.assign({}, defaults, _options);
+  const flags: string[] = JSON.parse(options.flags as unknown as string);
 
-  let pkgPath;
+  let pkgPath: string;
 
   if (options.pkg) {
     pkgPath = path.resolve(path.dirname(srcPath), options.pkg);
@@ -116,8 +130,8 @@ export default function INSTALLCMD({
   const client = options.client || pickClient(path.dirname(pkgPath));
 
   const cmd = filterFalseyAndJoin([
-    buildInstallCmd(client, options.flags.includes('--global')),
-    buildCmdFlags(client, options.flags),
+    buildInstallCmd(client, flags.includes('--global')),
+    buildCmdFlags(client, flags),
     buildDeps(pkg, options.exact, options.peers !== 'false'),
   ]);
 

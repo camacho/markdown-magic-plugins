@@ -1,6 +1,6 @@
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import INSTALLCMD from './index.js';
+import INSTALLCMD from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',
