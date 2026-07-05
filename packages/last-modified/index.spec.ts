@@ -1,7 +1,7 @@
 import { mkdirSync, rmSync, writeFileSync } from 'fs';
 import path from 'path';
 import { describe, expect, it } from 'vitest';
-import format from './index.js';
+import format from './index.ts';
 
 const srcPath = path.join(import.meta.dirname, 'README.md');
 
