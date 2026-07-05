@@ -27,6 +27,10 @@
     "overrides": {
       "dotty": "^0.1.2",
       "minimist": "^1.2.8"
-    }
+    },
+    "ignoredBuiltDependencies": [
+      "es5-ext",
+      "lefthook"
+    ]
   }
 }
