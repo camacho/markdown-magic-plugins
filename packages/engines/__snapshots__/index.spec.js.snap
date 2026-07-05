@@ -1,3 +1,0 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
-
-exports[`markdown-magic-engines > renders engines from nearest package.json 1`] = `"- **node**: >=22.18.0"`;
