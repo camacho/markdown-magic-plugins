@@ -1,6 +1,10 @@
 import prettier from 'prettier';
+import type { Options } from 'prettier';
+import type { TransformArgs } from './types.ts';
 
-const defaults = {
+export type { TransformArgs, TransformOptions } from './types.ts';
+
+const defaults: Options = {
   parser: 'babel',
   singleQuote: true,
   trailingComma: 'es5',
@@ -9,8 +13,8 @@ const defaults = {
 export default async function PRETTIER({
   content: originalContent,
   options: _options = {},
-}) {
-  const options = Object.assign({}, defaults, _options);
+}: TransformArgs): Promise<string> {
+  const options: Options = Object.assign({}, defaults, _options);
 
   const content = originalContent
     .trim()

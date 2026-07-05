@@ -1,6 +1,6 @@
 import path from 'path';
 import { markdownMagic } from 'markdown-magic';
-import PRETTIER from './index.js';
+import PRETTIER from './index.ts';
 
 const config = {
   matchWord: 'AUTO-GENERATED-CONTENT',
