@@ -1,6 +1,6 @@
 {
   "name": "markdown-magic-package-scripts",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Print list of scripts in package.json with descriptions",
   "type": "module",
   "main": "dist/index.js",
