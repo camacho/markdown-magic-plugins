@@ -40,6 +40,7 @@ await markdownMagic(markdownPath, config);
 directory-tree/
 ├── __fixtures__/
 ├── __snapshots__/
+├── CHANGELOG.md
 ├── example.ts
 ├── index.spec.ts
 ├── index.ts

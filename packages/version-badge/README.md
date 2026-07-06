@@ -36,7 +36,7 @@ await markdownMagic(markdownPath, config);
 
 <!-- AUTO-GENERATED-CONTENT:START (VERSIONBADGE) -->
 
-[![npm](https://img.shields.io/badge/npm-v2.0.0-green.svg)](https://www.npmjs.com/package/markdown-magic-version-badge)
+[![npm](https://img.shields.io/badge/npm-v2.1.0-green.svg)](https://www.npmjs.com/package/markdown-magic-version-badge)
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 ## Options

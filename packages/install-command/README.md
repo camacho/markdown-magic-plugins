@@ -41,7 +41,7 @@ await markdownMagic(markdownPath, config);
 <!-- AUTO-GENERATED-CONTENT:START (INSTALLCMD:flags=["--save-dev"]&exact=true) -->
 
 ```sh
-npm add --save-dev markdown-magic-install-command@3.0.0 markdown-magic@^4
+npm add --save-dev markdown-magic-install-command@3.1.0 markdown-magic@^4
 ```
 
 <!-- AUTO-GENERATED-CONTENT:END -->
